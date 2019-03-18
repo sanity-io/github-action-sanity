@@ -1,6 +1,6 @@
 # GitHub Action for Sanity.io
 
-This Action wraps the [Sanity CLI](https://github.com/sanity-io/sanity) to enable common Now commands.
+This Action wraps the [Sanity CLI](https://github.com/sanity-io/sanity) to enable studio deployment from GitHub.
 
 ## Usage
 
