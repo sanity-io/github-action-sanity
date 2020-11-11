@@ -4,25 +4,27 @@ This Action wraps the [Sanity CLI](https://github.com/sanity-io/sanity) to enabl
 
 ## Usage
 
-```workflow
-workflow "Deploy on sanity.studio" {
-  on = "push"
-  resolves = ["deploy"]
-}
-
-action "deploy" {
-  needs = ["deploy"]
-  uses = "docker://kmelve/github-actions-sanity-io"
-  args = "deploy"
-  secrets = [
-    "SANITY_AUTH_TOKEN",
-  ]
-}
+```yaml
+name: Deploy Sanity
+on:
+  push:
+    branches: [main]
+jobs:
+  sanity-deploy:
+    runs-on: ubuntu-latest
+    name: Deploy Sanity
+    steps:
+      - uses: actions/checkout@v2
+      - uses: sanity-io/github-action-sanity@v0.1-alpha
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        with:
+          args: deploy
 ```
 
 ### Secrets
 
-- `SANTY_AUTH_TOKEN` - **Required**. The token to use for authentication with the Sanity.io API ([more info](https://www.sanity.io/docs))
+- `SANITY_AUTH_TOKEN` - **Required**. The token to use for authentication with the Sanity.io API ([more info](https://www.sanity.io/docs))
 
 ## License
 
