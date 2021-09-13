@@ -1,4 +1,4 @@
-FROM node:10-slim
+FROM node:12
 
 LABEL version="1.0.0"
 LABEL repository="http://github.com/kmelve/actions-sanity-io"
