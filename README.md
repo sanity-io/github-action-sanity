@@ -2,11 +2,39 @@
 
 This Action wraps the [Sanity CLI](https://github.com/sanity-io/sanity) for usage inside workflows.
 
+## Breaking change in `v0.3`
+
+Prior to `v0.3`, all `args` would be appended to the `sanity` command in entrypoint.sh (meaning one or more `args` was required).
+
+As of `v0.3`, entrypoint.sh requires at least two `args`. The first is used to specify the current directory (`.`) or a subdirectory (e.g., `studio`, as with a monorepo). All subsequent `args` are appended to the `sanity` script.
+
+Example snippet to run `sanity deploy`, where the studio is installed in a `studio` subdirectory:
+
+```yaml
+# Other workflow commands
+
+with:
+  args: studio deploy
+```
+
+This is not running a command called `studio deploy`. Rather, it is running `cd studio` followed by `sanity deploy`.
+
+Example snippet to run `sanity dataset export production backups/backup.tar.gz`, where the studio is installed at the root of the repository:
+
+```yaml
+# Other workflow commands
+
+with:
+  args: . dataset export production backups/backup.tar.gz
+```
+
+This will run `cd .` (staying in the current directory) followed by `sanity dataset export production backups/backup.tar.gz`.
+
 ## Usage
 
 Below are two examples of usage. Do you use this GitHub Action for a different purpose? Submit a pull request!
 
-Depending on your use case, you will need to [generate a read or write token](https://www.sanity.io/docs/http-auth#robot-tokens-4c21d7b829fe) from your project's management console and then [add it as a secret](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository) in the Studio GitHub repository. In the examples below, the secret was named `SANITY_AUTH_TOKEN`.
+Depending on your use case, you will need to [generate a read or write token](https://www.sanity.io/docs/http-auth#4c21d7b829fe) from your project's management console and then [add it as a secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) in the Studio GitHub repository. In the examples below, the secret was named `SANITY_AUTH_TOKEN`.
 
 ### Studio deployment on push requests
 
@@ -23,18 +51,20 @@ jobs:
     name: Deploy Sanity
     steps:
       - uses: actions/checkout@v2
-      - uses: sanity-io/github-action-sanity@v0.2-alpha
+      - uses: sanity-io/github-action-sanity@v0.3
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         with:
-          args: deploy
+          args: . deploy
 ```
+
+If your studio is in a subdirectory, replace `.` in `args` with the name of your subdirectory (e.g., `args: studio deploy`)
 
 ### Backup routine
 
-Thanks to [scheduled events](https://docs.github.com/en/free-pro-team@latest/actions/reference/events-that-trigger-workflows#schedule) and [artifacts](https://docs.github.com/en/free-pro-team@latest/actions/guides/storing-workflow-data-as-artifacts), you can set up a simple backup routine.
+Thanks to [scheduled events](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule) and [artifacts](https://docs.github.com/en/actions/advanced-guides/storing-workflow-data-as-artifacts), you can set up a simple backup routine.
 
-Backup files will appear as downloadable artifacts in the workflow summary. Keep in mind that artifacts are automatically deleted [after a certain period of time](https://docs.github.com/en/free-pro-team@latest/actions/reference/usage-limits-billing-and-administration#artifact-and-log-retention-policy) (after 90 days for public repositories).
+Backup files will appear as downloadable artifacts in the workflow summary. Keep in mind that artifacts are automatically deleted [after a certain period of time](https://docs.github.com/en/actions/learn-github-actions/usage-limits-billing-and-administration#artifact-and-log-retention-policy) (after 90 days by default for public repositories).
 
 _This workflow requires a read token._
 
@@ -51,11 +81,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Export dataset
-        uses: sanity-io/github-action-sanity@v0.2-alpha
+        uses: sanity-io/github-action-sanity@v0.3
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         with:
-          args: dataset export production backups/backup.tar.gz
+          args: . dataset export production backups/backup.tar.gz
       - name: Upload backup.tar.gz
         uses: actions/upload-artifact@v2
         with:
