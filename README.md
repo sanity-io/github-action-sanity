@@ -6,29 +6,39 @@ This Action wraps the [Sanity CLI](https://github.com/sanity-io/sanity) for usag
 
 Prior to `v0.3`, all `args` would be appended to the `sanity` command in entrypoint.sh (meaning one or more `args` was required).
 
-As of `v0.3`, entrypoint.sh requires at least two `args`. The first is used to specify the current directory (`.`) or a subdirectory (e.g., `studio`, as with a monorepo). All subsequent `args` are appended to the `sanity` script.
+As of `v0.3`, entrypoint.sh requires at least two `args`. The first is used to specify the current directory (`.`) or a subdirectory (e.g., `studio`, as with a monorepo). All subsequent `args` are appended to the `sanity` command.
 
-Example snippet to run `sanity deploy`, where the studio is installed in a `studio` subdirectory:
+### Sample deployment snippet
+
+Example snippet to run `sanity deploy`, where the studio is installed in a `studio` subdirectory (see below for full example):
 
 ```yaml
-# Other workflow commands
+# deploy-sanity-studio.yml
+
+# ... other workflow commands ...
 
 with:
   args: studio deploy
 ```
 
-This is not running a command called `studio deploy`. Rather, it is running `cd studio` followed by `sanity deploy`.
+This is _not_ running a command called `studio deploy`. Rather, it is running `cd studio` followed by `sanity deploy`.
 
-Example snippet to run `sanity dataset export production backups/backup.tar.gz`, where the studio is installed at the root of the repository:
+---
+
+### Sample backup snippet
+
+Example snippet to run `sanity dataset export production backups/backup.tar.gz`, where the studio is installed at the root of the repository (see below for full example):
 
 ```yaml
-# Other workflow commands
+# sanity-backup.yml
+
+# ... other workflow commands ...
 
 with:
   args: . dataset export production backups/backup.tar.gz
 ```
 
-This will run `cd .` (staying in the current directory) followed by `sanity dataset export production backups/backup.tar.gz`.
+This will run `cd .` (remaining at the root of the repository) followed by `sanity dataset export production backups/backup.tar.gz`.
 
 ## Usage
 
