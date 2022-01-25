@@ -1,5 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
-sh -c "sanity install && SANITY_AUTH_TOKEN=$SANITY_AUTH_TOKEN sanity $*"
+sh -c "cd $1 && sanity install && SANITY_AUTH_TOKEN=$SANITY_AUTH_TOKEN sanity ${@:2:99}"
