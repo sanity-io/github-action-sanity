@@ -61,7 +61,7 @@ jobs:
     name: Deploy Sanity
     steps:
       - uses: actions/checkout@v2
-      - uses: sanity-io/github-action-sanity@v0.3
+      - uses: sanity-io/github-action-sanity@v0.4
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         with:
@@ -91,7 +91,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Export dataset
-        uses: sanity-io/github-action-sanity@v0.3
+        uses: sanity-io/github-action-sanity@v0.4
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
         with:
