@@ -57,7 +57,8 @@ on:
     branches: [main]
 jobs:
   sanity-deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+
     name: Deploy Sanity
     steps:
       - uses: actions/checkout@v2
