@@ -19,7 +19,8 @@ on:
     branches: [main]
 jobs:
   sanity-deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+
     name: Deploy Sanity
     steps:
       - uses: actions/checkout@v2
@@ -45,24 +46,25 @@ on:
     # Runs at 04:00 UTC on the 1st and 17th of every month
     - cron: "0 4 */16 * *"
 jobs:
-  backup-dataset:
-    runs-on: ubuntu-18.04
-    name: Backup dataset
-    steps:
-      - uses: actions/checkout@v2
-      - name: Export dataset
-        uses: sanity-io/github-action-sanity@v0.2-alpha
-        env:
-          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        with:
-          args: dataset export production backups/backup.tar.gz
-      - name: Upload backup.tar.gz
-        uses: actions/upload-artifact@v2
-        with:
-          name: backup-tarball
-          path: backups/backup.tar.gz
-          # Fails the workflow if no files are found; defaults to 'warn'
-          if-no-files-found: error
+backup-dataset:
+  runs-on: ubuntu-latest
+
+  name: Backup dataset
+  steps:
+    - uses: actions/checkout@v2
+    - name: Export dataset
+      uses: sanity-io/github-action-sanity@v0.2-alpha
+      env:
+        SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+      with:
+        args: dataset export production backups/backup.tar.gz
+    - name: Upload backup.tar.gz
+      uses: actions/upload-artifact@v2
+      with:
+        name: backup-tarball
+        path: backups/backup.tar.gz
+        # Fails the workflow if no files are found; defaults to 'warn'
+        if-no-files-found: error
 ```
 
 ## License
