@@ -87,7 +87,7 @@ on:
     - cron: "0 4 */16 * *"
 jobs:
   backup-dataset:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     name: Backup dataset
     steps:
       - uses: actions/checkout@v2
