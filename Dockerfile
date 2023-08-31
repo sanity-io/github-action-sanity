@@ -1,7 +1,7 @@
 FROM node:18
 
 LABEL version="1.1.0"
-LABEL repository="http://github.com/kmelve/actions-sanity-io"
+LABEL repository="http://github.com/sanity-io/actions-sanity-io"
 LABEL homepage="http://github.com/actions/actions-sanity-io"
 LABEL maintainer="Sanity.io <hello@sanity.io>"
 
