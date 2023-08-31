@@ -2,6 +2,13 @@
 
 set -e
 
-sh -c "cd $1 && sanity install"
-shift
-sh -c "SANITY_AUTH_TOKEN='$SANITY_AUTH_TOKEN' sanity $*"
+if [ -z "$SANITY_AUTH_TOKEN" ]; then
+  echo "Please set the secret SANITY_AUTH_TOKEN environment variable."
+  exit 1
+fi
+
+if $STUDIO_CONFIG_PATH; then
+  cd $STUDIO_CONFIG_PATH
+fi
+
+SANITY_AUTH_TOKEN='$SANITY_AUTH_TOKEN' npx sanity $*
