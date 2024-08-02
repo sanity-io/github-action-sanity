@@ -8,6 +8,11 @@ Below are two examples of usage. Do you use this GitHub Action for a different p
 
 Depending on your use case, you will need to [generate a read or write token](https://www.sanity.io/docs/http-auth#robot-tokens-4c21d7b829fe) from your project's management console and then [add it as a secret](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository) in the Studio GitHub repository. In the examples below, the secret was named `SANITY_AUTH_TOKEN`.
 
+### Environment variables
+
+- `SANITY_AUTH_TOKEN` - **Required**. The token to authenticate with the Sanity API.
+- `SANITY_STUDIO_CONFIG_PATH` - **Optional**. The path to the studio in your repository.
+
 ### Studio deployment on push requests
 
 _This workflow requires a read token._
