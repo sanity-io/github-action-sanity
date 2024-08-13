@@ -7,8 +7,8 @@ if [ -z "$SANITY_AUTH_TOKEN" ]; then
   exit 126
 fi
 
-if [ -n "$STUDIO_CONFIG_PATH" ]; then
-  cd "$STUDIO_CONFIG_PATH"
+if [ -n "$SANITY_STUDIO_CONFIG_PATH" ]; then
+  cd "$SANITY_STUDIO_CONFIG_PATH"
 fi
 
 sh -c "SANITY_AUTH_TOKEN='$SANITY_AUTH_TOKEN' sanity $*"
