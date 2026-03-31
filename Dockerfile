@@ -1,4 +1,4 @@
-FROM node:20
+FROM node:22.22.2
 
 LABEL version="1.1.0"
 LABEL repository="http://github.com/sanity-io/actions-sanity-io"
